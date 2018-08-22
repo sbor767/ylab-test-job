@@ -20,53 +20,19 @@ export default class TreeList extends Component {
     theme: 'default'
   };
 
-/*
-  handleClick = () => {
-    this.setState({
-      isOpen: this.props.disabled ? this.state.isOpen : !this.state.isOpen
-    });
-  };
-*/
-
-  getOrdered(arr = []) {
-    function getPosition(val) {
-      let level = undefined;
-      let path = undefined;
-      if (!val.parent) {
-        level = 0;
-        path = '' + val._id;
-        return {level, path}
-      }
-      let parentPosition = getPosition(arr.filter(e => e._id === val.parent)[0]);
-      level = parentPosition.level + 1;
-      path = `${parentPosition.path}/${val._id}`;
-      return {level, path};
-    }
-    let newArr = arr.map(val => {
-      let newVal = val;
-      newVal['level'] = getPosition(val).level;
-      newVal['path'] = getPosition(val).path;
-      return newVal;
-    });
-    newArr.sort((a, b) => {
-      if (a.path > b.path) return 1;
-      if (a.path < b.path) return -1;
-      return 0;
-    });
-    return newArr;
-  }
-
   render() {
-    const {theme, title, items, children } = this.props;
-    let newArr = this.getOrdered(items);
+    const {theme, title, itemsObj, order, children, itemClick } = this.props;
     return (
       <ul className={cn(`TreeList`, themes('TreeList', theme))}>
-        {newArr.map(item => (
+        {order.map(id => (
           <TreeListItem
-            key={item._id}
-            title={item.title}
-            path={item.path}
-            level={item.level}
+            key={id}
+            id={id}
+            title={itemsObj[id].title}
+            path={itemsObj[id].path}
+            level={itemsObj[id].level}
+            itemClick={itemClick}
+            isActive={itemsObj[id].active}
           />
         ))}
       </ul>

@@ -23,18 +23,18 @@ export default class TreeListItem extends Component {
     selected: false
   };
 
-/*
   handleClick = () => {
-    this.setState({
-      isOpen: this.props.disabled ? this.state.isOpen : !this.state.isOpen
-    });
+    const { id, itemClick } = this.props;
+    itemClick(id);
   };
-*/
 
   render() {
-    const {theme, title, id, level, path } = this.props;
+    const {theme, title, level, path, isActive } = this.props;
     return (
-      <li className={cn(`TreeListItem_${level}`, themes('TreeListItem', theme))}>
+      <li
+        className={cn(`TreeListItem_${level}`, themes('TreeListItem', theme), isActive && 'TreeListItem_active')}
+        onClick={this.handleClick}
+      >
         {title} {level} {path}
       </li>
     );

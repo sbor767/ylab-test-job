@@ -24,18 +24,65 @@ class Home extends Component {
   };
 
   state = {
-    listItems: []
+    itemsObj: {},
+    order: []
   };
 
   componentDidMount() {
     items.get().then(res => {
+      /**
+       * Recurrent function to evaluate tree position.
+       * @param val - tree item
+       * @returns {*} - {level, path} - tree position
+       */
+      function getPosition(val) {
+        let level = undefined;
+        let path = undefined;
+        if (!val.parent) {
+          level = 0;
+          path = '' + val._id;
+          return {level, path}
+        }
+        let parentPosition = getPosition(res.filter(e => e._id === val.parent)[0]);
+        level = parentPosition.level + 1;
+        path = `${parentPosition.path}/${val._id}`;
+        return {level, path};
+      }
+
       let items = res.map(item => {
-        item['active'] = false;
-        return item;
+        let newItem = item;
+        newItem['active'] = false;
+        newItem['level'] = getPosition(item).level;
+        newItem['path'] = getPosition(item).path;
+        return newItem;
       });
-      this.setState({ listItems: items })
+
+      items.sort((a, b) => {
+        if (a.path > b.path) return 1;
+        if (a.path < b.path) return -1;
+        return 0;
+      });
+
+      // Make object to fast access it keys.
+      let itemsObj = items.reduce((acc, cur, i) => {
+        acc[cur._id] = cur;
+        return acc;
+      }, {});
+
+      let order = items.map(item => item._id);
+
+      this.setState({ itemsObj, order })
     })
   }
+
+  setActive = (id, activeState = true) => {
+    let itemsObj = this.state.itemsObj;
+    Object.keys(itemsObj).forEach(i => itemsObj[i].active = false );
+    itemsObj[id].active = activeState;
+    this.setState({ itemsObj })
+  };
+
+  setPassive = (id) => {this.setActive(id, false)}
 
   render() {
     return (
@@ -51,7 +98,9 @@ class Home extends Component {
 
           <TreeList
             title={"Заголовок"}
-            items={this.state.listItems}
+            itemsObj={this.state.itemsObj}
+            order={this.state.order}
+            itemClick={this.setActive}
           />
         </LayoutContent>
       </LayoutPage>
