@@ -4,7 +4,6 @@ import cn from 'classnames';
 import './style.less';
 import {themes} from '../../../../utils';
 import Input from '../../../elements/input'
-import Error from "../../../elements/error";
 
 const MAX_INPUT_LENGTH = 255;
 
@@ -12,8 +11,12 @@ export default class TreeListItem extends Component {
 
   static propTypes = {
     children: PropTypes.node,
-    onClick: PropTypes.func,
-    title: PropTypes.node,
+    id: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    level: PropTypes.number.isRequired,
+    isActive: PropTypes.bool.isRequired,
+    itemClick: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
     theme: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   };
 
@@ -25,7 +28,6 @@ export default class TreeListItem extends Component {
     id: undefined,
     title: '',
     isActive: false,
-    isTouched: false,
     error: ''
   };
 
@@ -33,19 +35,16 @@ export default class TreeListItem extends Component {
     const { id, title, isActive } = nextProps;
     let error = this.error(title);
     this.setState({ id, title, isActive, error });
-    // this.setState({ id, title, isActive });
   }
 
   error = (val) => !val.length || val.length > MAX_INPUT_LENGTH ? `Input length must be in 1..${MAX_INPUT_LENGTH} range!` : '';
 
   handleInputChange = val => {
     let error = this.error(val);
-    console.log('handleInputChange-val', val, val.length, MAX_INPUT_LENGTH);
-    this.setState({ title: val, isTouched: true, error });
+    this.setState({ title: val, error });
   };
 
   handleSubmit = () => {
-    console.log('handleSubmit_state', this.state);
     if (this.state.error) return;
     this.props.onSubmit(this.state.id, this.state.title);
   };

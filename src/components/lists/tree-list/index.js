@@ -28,7 +28,6 @@ export default class TreeList extends Component {
             key={id}
             id={id}
             title={itemsObj[id].title}
-            path={itemsObj[id].path}
             level={itemsObj[id].level}
             itemClick={itemClick}
             isActive={itemsObj[id].active}
