@@ -75,14 +75,19 @@ class Home extends Component {
     })
   }
 
-  setActive = (id, activeState = true) => {
+  handleSetItemActive = (id, activeState = true) => {
     let itemsObj = this.state.itemsObj;
     Object.keys(itemsObj).forEach(i => itemsObj[i].active = false );
     itemsObj[id].active = activeState;
     this.setState({ itemsObj })
   };
 
-  setPassive = (id) => {this.setActive(id, false)}
+  handleItemSubmit = (id, newTitle) => {
+    let itemsObj = this.state.itemsObj;
+    itemsObj[id].title = newTitle;
+    itemsObj[id].active = false;
+    this.setState({ itemsObj })
+  };
 
   render() {
     return (
@@ -100,7 +105,9 @@ class Home extends Component {
             title={"Заголовок"}
             itemsObj={this.state.itemsObj}
             order={this.state.order}
-            itemClick={this.setActive}
+            itemClick={this.handleSetItemActive}
+            itemSubmit={this.handleItemSubmit}
+            itemSetPassive={this.handleSetItemPassive}
           />
         </LayoutContent>
       </LayoutPage>

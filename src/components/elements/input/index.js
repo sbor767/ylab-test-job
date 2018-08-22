@@ -18,11 +18,14 @@ class Input extends React.Component {
     onChange: PropTypes.func.isRequired,
     onFocus: PropTypes.func,
     onBlur: PropTypes.func,
+    onKeyDown: PropTypes.func,
     theme: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   };
 
   static defaultProps = {
     onBlur: () => {
+    },
+    onKeyDown: () => {
     },
     onChange: () => {
     },
@@ -43,6 +46,8 @@ class Input extends React.Component {
 
   onBlur = () => this.props.onBlur();
 
+  onKeyDown = (e) => this.props.onKeyDown(e);
+
   render() {
     const {type, placeholder, required, focused, value, theme, disabled, tabIndex, autocomplete} = this.props;
 
@@ -61,6 +66,7 @@ class Input extends React.Component {
           onChange={this.onChange}
           onFocus={this.onFocus}
           onBlur={this.onBlur}
+          onKeyDown={this.onKeyDown}
         />
       </div>
     );

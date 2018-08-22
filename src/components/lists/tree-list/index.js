@@ -12,7 +12,6 @@ export default class TreeList extends Component {
     onClick: PropTypes.func,
     title: PropTypes.node,
     theme: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
-    // disabled: PropTypes.bool
   };
 
   static defaultProps = {
@@ -21,7 +20,7 @@ export default class TreeList extends Component {
   };
 
   render() {
-    const {theme, title, itemsObj, order, children, itemClick } = this.props;
+    const {theme, title, itemsObj, order, children, itemClick, itemSubmit } = this.props;
     return (
       <ul className={cn(`TreeList`, themes('TreeList', theme))}>
         {order.map(id => (
@@ -33,6 +32,7 @@ export default class TreeList extends Component {
             level={itemsObj[id].level}
             itemClick={itemClick}
             isActive={itemsObj[id].active}
+            onSubmit={itemSubmit}
           />
         ))}
       </ul>
