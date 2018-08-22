@@ -8,14 +8,14 @@ import TreeListItem from "./tree-list-item";
 export default class TreeList extends Component {
 
   static propTypes = {
-    children: PropTypes.node,
-    onClick: PropTypes.func,
-    title: PropTypes.node,
+    itemsObj: PropTypes.object.isRequired,
+    order: PropTypes.array.isRequired,
+    itemClick: PropTypes.func.isRequired,
+    itemSubmit: PropTypes.func.isRequired,
     theme: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   };
 
   static defaultProps = {
-    disabled: false,
     theme: 'default'
   };
 

@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import {Link, withRouter} from 'react-router-dom';
 import * as actions from "../../store/actions";
 import TreeList from "../../components/lists/tree-list";
-import Button from "../../components/elements/button";
 import LayoutPage from "../../components/layouts/layout-page";
 import LayoutContent from "../../components/layouts/layout-content";
 import HeaderContainer from "../header-container";
@@ -95,19 +94,17 @@ class Home extends Component {
         <LayoutContent>
           <h1>Главная страница</h1>
           <p>
-            <Link to="/main">Раздел для авторизованных</Link>
+            {/*<Link to="/main">Раздел для авторизованных</Link>*/}
           </p>
           <p>
-            <Button onClick={this.showInfo}>Показать модалку</Button>
+            {/*<Button onClick={this.showInfo}>Показать модалку</Button>*/}
           </p>
 
           <TreeList
-            title={"Заголовок"}
             itemsObj={this.state.itemsObj}
             order={this.state.order}
             itemClick={this.handleSetItemActive}
             itemSubmit={this.handleItemSubmit}
-            itemSetPassive={this.handleSetItemPassive}
           />
         </LayoutContent>
       </LayoutPage>
